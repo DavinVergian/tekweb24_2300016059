@@ -1,49 +1,46 @@
-// Mengambil elemen dari DOM
-const taskInput = document.getElementById('taskInput');
-const addTaskBtn = document.getElementById('addTaskBtn');
-const taskList = document.getElementById('taskList');
+let currentFontSize = 16;
+let fontStyle = 0;
+const fonts = ["Arial", "Verdana", "Courier New", "Georgia"];
 
-// Fungsi untuk menambah tugas baru
 function addTask() {
-    const taskText = taskInput.value.trim();
+  const taskInput = document.getElementById("taskInput");
+  const taskList = document.getElementById("taskList");
 
-    if (taskText === '') {
-        alert('Please enter a task.');
-        return;
-    }
-
-    // Membuat elemen list item (li) untuk tugas
-    const li = document.createElement('li');
-    li.textContent = taskText;
-
-    // Tombol hapus untuk menghapus tugas
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete';
-    deleteBtn.addEventListener('click', function() {
-        taskList.removeChild(li);
-    });
-
-    // Menandai tugas sebagai selesai
-    li.addEventListener('click', function() {
-        li.classList.toggle('completed');
-    });
-
-    // Menambahkan tombol hapus ke dalam elemen li
-    li.appendChild(deleteBtn);
-    
-    // Menambahkan elemen li ke dalam taskList (ul)
+  if (taskInput.value.trim() !== "") {
+    const li = document.createElement("li");
+    li.innerText = taskInput.value;
     taskList.appendChild(li);
-
-    // Mengosongkan input setelah tugas ditambahkan
-    taskInput.value = '';
+    taskInput.value = "";
+  }
 }
 
-// Menambahkan event listener pada tombol Add Task
-addTaskBtn.addEventListener('click', addTask);
+function increaseFontSize() {
+  currentFontSize += 2;
+  updateFontSize();
+}
 
-// Menambahkan event listener untuk menambah tugas dengan Enter
-taskInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        addTask();
-    }
-});
+function decreaseFontSize() {
+  if (currentFontSize > 2) {
+    currentFontSize -= 2;
+    updateFontSize();
+  }
+}
+
+function updateFontSize() {
+  const elements = document.querySelectorAll("body, body *");
+  elements.forEach((element) => {
+    element.style.fontSize = currentFontSize + "px";
+  });
+}
+
+function changeFontStyle() {
+  fontStyle = (fontStyle + 1) % fonts.length;
+  const elements = document.querySelectorAll("body, body *");
+  elements.forEach((element) => {
+    element.style.fontFamily = fonts[fontStyle];
+  });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+}
